@@ -8,4 +8,4 @@
 | --- | --- | --- | --- | --- | --- |
 |  1 |  |  |  |  |  |
 |  2 | Aguirre Bernal | Alvaro | chelaschill  |  | 33 |
-|  3 |  | Uccelli Meneses | Francesco | Flrotm | 33 |
+|  3 | 201810253 | Uccelli Meneses | Francesco | Flrotm | 33 |
