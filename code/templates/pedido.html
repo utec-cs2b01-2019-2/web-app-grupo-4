@@ -1,59 +1,19 @@
+{% from 'field-macro.html' import displayField %}
 {% extends 'layout.html' %}
-{% extends 'field-macro.html' %}
+
 {% block body %}
-<link rel="stylesheet" href="/js/calendar.js">
-<script src="/js/calendar.js" ></script>
-
-  <h1>Pedido</h1>
+  <h1>Register</h1>
   {% from "includes/_formhelpers.html" import render_field %}
+  <form action="{{ url_for('pedido') }}", method="POST">
 
-<head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script>window.jQuery || document.write(decodeURIComponent('%3Cscript src="js/jquery.min.js"%3E%3C/script%3E'))</script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cldrjs/0.4.4/cldr.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cldrjs/0.4.4/cldr/event.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cldrjs/0.4.4/cldr/supplemental.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cldrjs/0.4.4/cldr/unresolved.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/globalize/1.1.1/globalize.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/globalize/1.1.1/globalize/message.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/globalize/1.1.1/globalize/number.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/globalize/1.1.1/globalize/currency.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/globalize/1.1.1/globalize/date.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn3.devexpress.com/jslib/19.1.7/css/dx.common.css" />
-    <link rel="stylesheet" type="text/css" href="https://cdn3.devexpress.com/jslib/19.1.7/css/dx.light.css" />
-    <script src="https://cdn3.devexpress.com/jslib/19.1.7/js/dx.all.js"></script>
-    <script src="index.js"></script>
-    <link rel="stylesheet" type="text/css" href="styles.css" />
-</head>
-<body class="dx-viewport">
-    <div class="demo-container">
-        <div class="dx-fieldset">
-          
-           
-            <div class="dx-field">
-                <div class="dx-field-label">Fecha de entrega</div>
-                <div class="dx-field-value">
-                    <div id="pattern"></div>
-                </div>
+    {{ displayField(form.nombre_cliente, 'Nombre del local', autocomplete="on", autofocus=true)}}
+    {{ displayField(form.cantidad, 'Cantidad', autocomplete="on", autofocus=true)}}
+    {{ displayField(form.tipo, 'Escoger bolsas de 3 o 5 kilos', autocomplete="off", autofocus=true) }}
+    {{ displayField(form.fecha_entrega, 'Fecha de entrega ') }}
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-warning">
             </div>
-           
-        </div>
-    </div>
-</body>
-
-  <form method="POST" action="">
-    <div class="form-group">
-      {{render_field(form.cantidad, class_="form-control")}}
-    </div>
-    <div class="form-group">
-      {{render_field(form.nombre_cliente, class_="form-control")}}
-    </div>
-    <div class="form-group">
-      {{render_field(form.fecha_entrega, class_="form-control")}}
-    </div>
-    <p><input type="submit" class="btn btn-primary" value="Enviar pedido"></p>
+            {{ form.csrf_token }}
   </form>
+
 {% endblock %}
