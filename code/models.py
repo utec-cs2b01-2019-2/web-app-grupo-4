@@ -22,9 +22,10 @@ class Pedido(db.Model):
     __tablename__ = "pedidos"
     id = db.Column(db.Integer, primary_key=True)
     nombre_cliente = db.Column(db.String(36), unique=False, nullable=True)
-    fecha_entrega = db.Column(db.DateTime(25), unique=False, nullable=False)
     cantidad = db.Column(db.Integer, unique=False, nullable=False)
-    cancelada = db.Column(db.String(3), nullable=False)
+    tipo = db.Column(db.Integer, nullable=False)
+    fecha_entrega = db.Column(db.DateTime(25), unique=False, nullable=False)
+    cancelada = db.Column(db.String(3), nullable=True)
     fecha_pedido = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
 
