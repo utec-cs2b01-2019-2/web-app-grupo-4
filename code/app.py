@@ -27,6 +27,9 @@ def index():
 def about():
     return render_template('about.html')
 
+@app.route('/home')
+def home():
+    return render_template('home.html')
 
 
 
@@ -43,7 +46,7 @@ def register():
         user1 = User(username=username, password=password,name=name,email=email)
         db.session.add(user1)
         db.session.commit()
-        return render_template('pedido_registrado.html')
+        return render_template('login.html')
 
     return render_template("register.html", form=form)
 
@@ -52,44 +55,16 @@ def register():
 # User login
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route("/login", methods=['GET', 'POST'])
 def login():
-    if request.method == 'POST':
-        # Get Form Fields
-        username = request.form['username']
-        password_candidate = request.form['password']
+    login_form = wtforms_fields.LoginForm()
 
-        # Create cursor
-        cur = db.cursor()
+    if login_form.validate_on_submit():
+        user_object = User.query.filter_by(username=login_form.username.data).all()
+        return redirect(url_for('home'))
+    return render_template("login.html", form=login_form)
 
-        # Get user by username
-        result = cur.execute("SELECT * FROM users WHERE username = %s", [username])
 
-        if result > 0:
-            # Get stored hash
-            data = cur.fetchone()
-            password = data['password']
-
-            # Compare Passwords
-            if sha256_crypt.verify(password_candidate, password):
-                # Passed
-                session['logged_in'] = True
-                session['username'] = username
-
-                flash('You are now logged in', 'success')
-                return redirect(url_for('dashboard'))
-            else:
-                error = 'Invalid login'
-                return render_template('login.html', error=error)
-            # Close connection
-            cur.close()
-        else:
-            error = 'Username not found'
-            return render_template('login.html', error=error)
-
-    return render_template('login.html')
-
-# Check if user logged in
 
 def is_logged_in(f):
     @wraps(f)
