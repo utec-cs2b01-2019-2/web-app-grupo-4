@@ -26,7 +26,9 @@ def index():
 def about():
     return render_template('about.html')
 
-
+@app.route('/entrega')
+def entrega():
+    return render_template('entrega.html')
 
 
 # Register Form Class
