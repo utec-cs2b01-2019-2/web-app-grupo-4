@@ -1,17 +1,14 @@
+
 {% extends 'layout.html' %}
 
 {% block body %}
-  <div style="background-color:#8F94CE;" class="jumbotron text-center">
+  <div class="jumbotron text-center">
     <h1>Espiritu hielo</h1>
     <p class="lead">Esta aplicación sirve para pedir hielo</p>
     {% if session.logged_in == NULL %}
       <a href="/register" class="btn btn-primary btn-lg">Registro</a>
       <a href="/login" class="btn btn-success btn-lg">Login</a>
+      <a href="/pedido" class="btn btn-success btn-lg">Pedido</a>
     {% endif %}
-
   </div>
-
-  <body style="background-color:powderblue;">
-  </body>
-
 {% endblock %}
