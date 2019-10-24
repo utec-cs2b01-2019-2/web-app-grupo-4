@@ -110,49 +110,20 @@ def logout():
     flash('You are now logged out', 'success')
     return redirect(url_for('login'))
 
-@app.route('/pedido',methods=['GET', 'POST','UPDATE'])
+@app.route('/pedido', methods=['GET', 'POST','UPDATE'])
 def pedido():
-    form=Ped_form()
-
-    if request.method == 'POST':
-        cantidad=form.cantidad
-        fecha_entrega=form.fecha_entrega
-        nombre_cliente=form.nombre_cliente
-
-
-        # Create cursor
-       # cur = db.cursor()
-
-        # Execute query
-        """
-        cur.execute("INSERT INTO users(name, email, username, password) VALUES(%s, %s, %s, %s)",
-                    (id, email, username, password))
-
-        # Commit to DB
-        db.commit()
-
-        # Close connection
-        cur.close()
-
-        flash('You are now registered and can log in', 'success')
-         """
-        return redirect('/pedido_registrado')
-    return render_template('pedido.html', form=form)
-
-    reg_form = RegisterForm()
-    if reg_form.validate():
-
-        username = reg_form.username.data
-        password = reg_form.password.data
-
-        user_object = User.query.filter_by(username=username).first()
-        if user_object:
-            return "Nombre de usuario no disponible"
-        user = User(username=username, password=password)
-        db.session.add(user)
+    form = wtforms_fields.ValidarPedido()
+    if form.validate_on_submit():
+        nombre_cliente = form.nombre_cliente.data
+        cantidad=form.cantidad.data
+        tipo=form.tipo.data
+        fecha_entrega=form.fecha_entrega.data
+        pedido1 = Pedido(nombre_cliente=nombre_cliente,cantidad=cantidad,tipo=tipo,fecha_entrega=fecha_entrega)
+        db.session.add(pedido1)
         db.session.commit()
-        return "insertado"
-    return render_template("pedido.html",form=Ped_form)
+        return render_template('pedido_registrado.html')
+
+    return render_template("pedido.html", form=form)
 
 @app.route('/pedido_registrado')
 def pedido_registrado():
