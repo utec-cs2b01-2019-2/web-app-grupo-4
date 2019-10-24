@@ -4,14 +4,15 @@ from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from passlib.hash import sha256_crypt
 from models import *
 from functools import wraps
-
+from wtforms.validators import DataRequired
+import os
+import wtforms_fields
 
 app= Flask(__name__)
 app.secret_key='secreto'
 
 #database
-app.config['SQLALCHEMY_DATABASE_URI']=\
-    'postgres://tkmqionogakzdx:a80c41f6bf582ea300d0d70470ca51e7c5706f5857fa3b6af16c80b67760dadd@ec2-107-20-155-148.compute-1.amazonaws.com:5432/dfa2lqmmmvka0j'
+app.config['SQLALCHEMY_DATABASE_URI']='postgres://tkmqionogakzdx:a80c41f6bf582ea300d0d70470ca51e7c5706f5857fa3b6af16c80b67760dadd@ec2-107-20-155-148.compute-1.amazonaws.com:5432/dfa2lqmmmvka0j'
 
 db=SQLAlchemy(app)
 
@@ -27,59 +28,26 @@ def about():
     return render_template('about.html')
 
 
-# Register Form Class
-class RegisterForm(Form):
-    name = StringField('Name', [validators.Length(min=1, max=50)])
-    username = StringField('Username', [validators.Length(min=4, max=25)])
-    email = StringField('Email', [validators.Length(min=6, max=50)])
-    password = PasswordField('Password', [
-        validators.DataRequired(),
-        validators.EqualTo('confirm', message='Passwords do not match')
-    ])
-    confirm = PasswordField('Confirm Password')
+
 
 
 # User Register
-@app.route('/register', methods=['GET', 'POST'])
+@app.route('/register', methods=['GET', 'POST','UPDATE'])
 def register():
-    form = RegisterForm(request.form)
-    if request.method == 'POST' and form.validate():
+    form = wtforms_fields.RegisterForm()
+    if form.validate():
         name = form.name.data
         email = form.email.data
         username = form.username.data
-        password = sha256_crypt.encrypt(str(form.password.data))
-
-        # Create cursor
-        cur = db.cursor()
-
-        # Execute query
-        cur.execute("INSERT INTO users(name, email, username, password) VALUES(%s, %s, %s, %s)",
-                    (name, email, username, password))
-
-        # Commit to DB
-        db.commit()
-
-        # Close connection
-        cur.close()
-
-        flash('You are now registered and can log in', 'success')
-
-        return redirect(url_for('login'))
-    return render_template('register.html', form=form)
-    reg_form = RegisterForm()
-    if reg_form.validate():
-
-        username = reg_form.username.data
-        password = reg_form.password.data
-
-        user_object = User.query.filter_by(username=username).first()
-        if user_object:
-            return "Nombre de usuario no disponible"
-        user = User(username=username, password=password)
-        db.session.add(user)
+        password = form.password.data
+        user1 = User(username=username, password=password,name=name,email=email)
+        db.session.add(user1)
         db.session.commit()
-        return "insertado"
-    return render_template("register.html")
+        return render_template('pedido_registrado.html')
+
+    return render_template("register.html", form=form)
+
+
 
 # User login
 
@@ -142,7 +110,53 @@ def logout():
     flash('You are now logged out', 'success')
     return redirect(url_for('login'))
 
+@app.route('/pedido',methods=['GET', 'POST','UPDATE'])
+def pedido():
+    form=Ped_form()
 
+    if request.method == 'POST':
+        cantidad=form.cantidad
+        fecha_entrega=form.fecha_entrega
+        nombre_cliente=form.nombre_cliente
+
+
+        # Create cursor
+       # cur = db.cursor()
+
+        # Execute query
+        """
+        cur.execute("INSERT INTO users(name, email, username, password) VALUES(%s, %s, %s, %s)",
+                    (id, email, username, password))
+
+        # Commit to DB
+        db.commit()
+
+        # Close connection
+        cur.close()
+
+        flash('You are now registered and can log in', 'success')
+         """
+        return redirect('/pedido_registrado')
+    return render_template('pedido.html', form=form)
+
+    reg_form = RegisterForm()
+    if reg_form.validate():
+
+        username = reg_form.username.data
+        password = reg_form.password.data
+
+        user_object = User.query.filter_by(username=username).first()
+        if user_object:
+            return "Nombre de usuario no disponible"
+        user = User(username=username, password=password)
+        db.session.add(user)
+        db.session.commit()
+        return "insertado"
+    return render_template("pedido.html",form=Ped_form)
+
+@app.route('/pedido_registrado')
+def pedido_registrado():
+    return render_template('pedido_registrado.html')
 
 if __name__=="__main__":
     app.run(debug=True)
