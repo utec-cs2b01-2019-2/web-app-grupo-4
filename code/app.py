@@ -61,7 +61,7 @@ def login():
 
     if login_form.validate_on_submit():
         user_object = User.query.filter_by(username=login_form.username.data).all()
-        flash('Bienvenido '+user_object.username,)
+        flash('Bienvenido ')
         return redirect(url_for('home'))
     return render_template("login.html", form=login_form)
 
