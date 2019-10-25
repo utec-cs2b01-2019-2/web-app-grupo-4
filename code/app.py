@@ -9,10 +9,10 @@ import os
 import wtforms_fields
 
 app= Flask(__name__)
-app.secret_key='secreto'
+app.secret_key=os.environ.get('SECRET')
 
 #database
-app.config['SQLALCHEMY_DATABASE_URI']='postgres://tkmqionogakzdx:a80c41f6bf582ea300d0d70470ca51e7c5706f5857fa3b6af16c80b67760dadd@ec2-107-20-155-148.compute-1.amazonaws.com:5432/dfa2lqmmmvka0j'
+app.config['SQLALCHEMY_DATABASE_URI']=os.environ.get('DATABASE_URL')
 
 db=SQLAlchemy(app)
 
