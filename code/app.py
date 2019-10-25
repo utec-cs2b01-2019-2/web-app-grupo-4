@@ -61,29 +61,16 @@ def login():
 
     if login_form.validate_on_submit():
         user_object = User.query.filter_by(username=login_form.username.data).all()
+        flash('Bienvenido '+user_object.username,)
         return redirect(url_for('home'))
     return render_template("login.html", form=login_form)
 
 
-
-def is_logged_in(f):
-    @wraps(f)
-    def wrap(*args, **kwargs):
-        if 'logged_in' in session:
-            return f(*args, **kwargs)
-        else:
-            flash('Unauthorized, Please login', 'danger')
-            return redirect(url_for('login'))
-    return wrap
-
-# Logout
-
 @app.route('/logout')
-@is_logged_in
 def logout():
     session.clear()
-    flash('You are now logged out', 'success')
-    return redirect(url_for('login'))
+    flash('You are now logged out')
+    return redirect(url_for('home'))
 
 @app.route('/pedido', methods=['GET', 'POST','UPDATE'])
 def pedido():
