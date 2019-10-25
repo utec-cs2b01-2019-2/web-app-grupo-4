@@ -94,6 +94,6 @@ def pedido_registrado():
     return render_template('pedido_registrado.html')
 
 if __name__=="__main__":
-    app.run(debug=True)
+    app.run()
 
 
