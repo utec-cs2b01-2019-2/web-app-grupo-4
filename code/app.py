@@ -66,6 +66,8 @@ def login():
     return render_template("login.html", form=login_form)
 
 
+
+
 @app.route('/logout')
 def logout():
     session.clear()
