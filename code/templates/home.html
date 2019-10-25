@@ -2,13 +2,33 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-  <div class="jumbotron text-center">
-    <h1>Espiritu hielo</h1>
-    <p class="lead">Esta aplicación sirve para pedir hielo</p>
-    {% if session.logged_in == NULL %}
-      <a href="/register" class="btn btn-primary btn-lg">Registro</a>
-      <a href="/login" class="btn btn-success btn-lg">Login</a>
-      <a href="/pedido" class="btn btn-success btn-lg">Pedido</a>
-    {% endif %}
+  <!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>La Hielería</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+<div class="login-box">
+  <h1>La Hielería</h1>
+  <div class="textbox">
+    <i class="fas fa-user"></i>
+    <input type="text" placeholder="Usuario">
   </div>
+
+  <div class="textbox">
+    <i class="fas fa-lock"></i>
+    <input type="password" placeholder="Contraseña">
+  </div>
+
+  <input type="button" class="btn" value="Ingresar">
+  <input type="button" class="btn" value="Pedidos">
+  <input type="button" class="btn" value="Registrarse"> 	
+</div>
+  </body>
+
+    {% endif %}
+</html>
+
 {% endblock %}
