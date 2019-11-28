@@ -34,7 +34,7 @@ class ValidarPedido(FlaskForm):
     nombre_cliente = StringField('Nombre del local', validators=[InputRequired(message="Nombre requerido"), Length(min=2, max=100, message="")])
     cantidad = IntegerField('Cantidad de bolsas', validators=[InputRequired(message="Ingrese la cantidad de bolsas")])
     tipo = StringField('Tipo de bolsa 3kg o 5kg', validators=[InputRequired(message="Ingrese el tipo de bolsa")])
-    fecha_entrega = DateField('Fecha de entrega', validators=[InputRequired(message="Escoga una fecha de entrega")],format='%d/%m/%Y')
+    fecha_entrega = DateField('Fecha de entrega', validators=[InputRequired(message="Escoga una fecha de entrega")])
 
 class LoginForm(FlaskForm):
     """ Login form """
